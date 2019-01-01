@@ -6,6 +6,7 @@ import {
   GoogleMap,
   Marker
 } from "react-google-maps";
+import readFile from "../methods/readFile";
 
 const MyMapComponent = compose(
   withProps({
@@ -30,11 +31,22 @@ const MyMapComponent = compose(
 
 class MyMap extends React.PureComponent {
   state = {
-    isMarkerShown: false
+    isMarkerShown: false,
+    coords: {}
   };
 
   componentDidMount() {
     this.delayedShowMarker();
+  }
+
+  componentWillMount() {
+    readFile("2016-07-02--11-56-24.json")
+      .then(response => response.json())
+      .then(coords => {
+        this.setState({ coords });
+        return coords;
+      })
+      .catch(console.log);
   }
 
   delayedShowMarker = () => {
