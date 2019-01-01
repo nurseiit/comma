@@ -28,7 +28,17 @@ const MapComponent = compose(
         onClick={props.onMarkerClick}
       />
     )}
-    <Polyline path={props.coords} strokeColor={colorFromName("hello")} />
+    <Polyline
+      path={props.coords}
+      onClick={props.onLineClick}
+      geodesic={true}
+      options={{
+        strokeColor: colorFromName(props.name),
+        strokeOpacity: 0.5,
+        strokeWeight: 4.5,
+        zIndex: 1
+      }}
+    />
   </GoogleMap>
 ));
 
