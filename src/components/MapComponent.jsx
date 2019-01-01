@@ -8,6 +8,8 @@ import {
   Polyline
 } from "react-google-maps";
 
+import colorFromName from "../methods/drawHelpers";
+
 const MapComponent = compose(
   withProps({
     googleMapURL:
@@ -22,10 +24,11 @@ const MapComponent = compose(
   <GoogleMap defaultZoom={12} defaultCenter={{ lat: 37.7625, lng: -122.4 }}>
     {props.isMarkerShown && (
       <Marker
-        position={{ lat: -34.397, lng: 150.644 }}
+        position={{ lat: 37.797, lng: -122.444 }}
         onClick={props.onMarkerClick}
       />
     )}
+    <Polyline path={props.coords} strokeColor={colorFromName("hello")} />
   </GoogleMap>
 ));
 

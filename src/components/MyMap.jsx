@@ -6,7 +6,8 @@ import readFile from "../methods/readFile";
 class MyMap extends React.PureComponent {
   state = {
     isMarkerShown: false,
-    coords: {}
+    coords: [],
+    data: {}
   };
 
   componentDidMount() {
@@ -16,9 +17,10 @@ class MyMap extends React.PureComponent {
   componentWillMount() {
     readFile("2016-07-02--11-56-24.json")
       .then(response => response.json())
-      .then(coords => {
-        this.setState({ coords });
-        return coords;
+      .then(data => {
+        this.setState({ data });
+        this.setState({ coords: data.coords });
+        return data;
       })
       .catch(console.log);
   }
@@ -39,6 +41,7 @@ class MyMap extends React.PureComponent {
       <MapComponent
         isMarkerShown={this.state.isMarkerShown}
         onMarkerClick={this.handleMarkerClick}
+        coords={this.state.coords}
       />
     );
   }
