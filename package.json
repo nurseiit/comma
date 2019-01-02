@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://nurseiit.github.io/comma",
   "dependencies": {
+    "antd": "^3.11.6",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-google-maps": "^9.4.5",

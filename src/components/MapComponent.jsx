@@ -8,37 +8,62 @@ import {
   Polyline
 } from "react-google-maps";
 
-import colorFromName from "../methods/drawHelpers";
+const { InfoBox } = require("react-google-maps/lib/components/addons/InfoBox");
 
 const MapComponent = compose(
   withProps({
     googleMapURL:
       "https://maps.googleapis.com/maps/api/js?key=AIzaSyDu2lXe6b5E55W6iKajZbZ0jB5Im0Byk3M&v=3.exp",
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `400px` }} />,
+    containerElement: <div style={{ height: `100vh` }} />,
     mapElement: <div style={{ height: `100%` }} />
   }),
   withScriptjs,
   withGoogleMap
 )(props => (
-  <GoogleMap defaultZoom={12} defaultCenter={{ lat: 37.7625, lng: -122.4 }}>
-    {props.isMarkerShown && (
-      <Marker
-        position={{ lat: 37.797, lng: -122.444 }}
-        onClick={props.onMarkerClick}
-      />
+  <GoogleMap defaultZoom={11} defaultCenter={{ lat: 37.6555, lng: -122.4 }}>
+    {!props.loading && (
+      <div>
+        <Polyline
+          path={props.coords}
+          onClick={props.onLineClick}
+          geodesic={true}
+          options={{
+            strokeColor: props.color,
+            strokeOpacity: props.isActive ? 0.99 : 0.35,
+            strokeWeight: 4.5,
+            zIndex: 1
+          }}
+        />
+        <Marker
+          position={{
+            lat: props.coords[props.infoIndex].lat,
+            lng: props.coords[props.infoIndex].lng
+          }}
+        >
+          <InfoBox options={{ closeBoxURL: ``, enableEventPropagation: true }}>
+            <div
+              style={{
+                backgroundColor: `white`,
+                opacity: 0.75,
+                padding: `5px`,
+                width: `150px`
+              }}
+            >
+              <div
+                style={{
+                  fontSize: `16px`,
+                  fontColor: `#08233B`,
+                  textAlign: `center`
+                }}
+              >
+                {props.infoText}
+              </div>
+            </div>
+          </InfoBox>
+        </Marker>
+      </div>
     )}
-    <Polyline
-      path={props.coords}
-      onClick={props.onLineClick}
-      geodesic={true}
-      options={{
-        strokeColor: colorFromName(props.name),
-        strokeOpacity: 0.5,
-        strokeWeight: 4.5,
-        zIndex: 1
-      }}
-    />
   </GoogleMap>
 ));
 
