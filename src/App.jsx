@@ -7,23 +7,28 @@ import TripInfo from "./components/TripInfo";
 
 class App extends Component {
   siderStyle = {
-    color: "white",
-    backgroundColor: "#282c34",
-    height: "100vh"
+    height: "100vh",
+    overflowY: "scroll"
   };
   render() {
+    const trips = [];
+    for (let i = 0; i < 50; i++) {
+      trips.push(
+        <TripInfo
+          loading={false}
+          index={i}
+          title={"11:53, May 15, 2017"}
+          color={"red"}
+        />
+      );
+    }
     return (
       <Row>
-        <Col span={16}>
+        <Col span={18}>
           <MyMap />
         </Col>
-        <Col span={8} style={this.siderStyle}>
-          <TripInfo
-            loading={false}
-            index={0}
-            title={"11:53, May 15, 2017"}
-            color={"red"}
-          />
+        <Col span={6} style={this.siderStyle}>
+          {trips}
         </Col>
       </Row>
     );
