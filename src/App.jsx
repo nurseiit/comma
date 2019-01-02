@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import MyMap from "./components/MyMap";
-import { Row, Col } from "antd";
 import "antd/dist/antd.css";
+import { Row, Col } from "antd";
+
+import MyMap from "./components/MyMap";
+import TripInfo from "./components/TripInfo";
 
 class App extends Component {
   siderStyle = {
@@ -12,11 +14,16 @@ class App extends Component {
   render() {
     return (
       <Row>
-        <Col span={18}>
+        <Col span={16}>
           <MyMap />
         </Col>
-        <Col span={6} style={this.siderStyle}>
-          <div>Text</div>
+        <Col span={8} style={this.siderStyle}>
+          <TripInfo
+            loading={false}
+            index={0}
+            title={"11:53, May 15, 2017"}
+            color={"red"}
+          />
         </Col>
       </Row>
     );
