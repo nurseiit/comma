@@ -8,6 +8,8 @@ import {
   Polyline
 } from "react-google-maps";
 
+const { InfoBox } = require("react-google-maps/lib/components/addons/InfoBox");
+
 const MapComponent = compose(
   withProps({
     googleMapURL:
@@ -20,12 +22,6 @@ const MapComponent = compose(
   withGoogleMap
 )(props => (
   <GoogleMap defaultZoom={11} defaultCenter={{ lat: 37.6555, lng: -122.4 }}>
-    {props.isMarkerShown && (
-      <Marker
-        position={{ lat: 37.797, lng: -122.444 }}
-        onClick={props.onMarkerClick}
-      />
-    )}
     <Polyline
       path={props.coords}
       onClick={props.onLineClick}
@@ -37,6 +33,28 @@ const MapComponent = compose(
         zIndex: 1
       }}
     />
+    <Marker
+      position={{
+        lat: props.coords[props.infoIndex].lat,
+        lng: props.coords[props.infoIndex].lng
+      }}
+      onClick={props.onToggleOpen}
+    >
+      <InfoBox options={{ closeBoxURL: ``, enableEventPropagation: true }}>
+        <div
+          style={{
+            backgroundColor: `white`,
+            opacity: 0.75,
+            padding: `5px`,
+            width: `150px`
+          }}
+        >
+          <div style={{ fontSize: `16px`, fontColor: `#08233B` }}>
+            {props.infoText}
+          </div>
+        </div>
+      </InfoBox>
+    </Marker>
   </GoogleMap>
 ));
 

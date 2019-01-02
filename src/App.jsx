@@ -15,7 +15,9 @@ class App extends Component {
       end_time: ""
     },
     loading: true,
-    color: ""
+    color: "",
+    infoIndex: 0,
+    infoText: "Click on the lines"
   };
   componentWillMount() {
     readFile("2016-07-02--11-56-24.json")
@@ -35,7 +37,9 @@ class App extends Component {
     let lat = e.latLng.lat();
     let lng = e.latLng.lng();
     let currentData = helpers.findByCoords(lat, lng, this.state.data.coords);
-    console.log(currentData);
+    let infoIndex = currentData.index;
+    let infoText = `Speed: ${currentData.speed.toFixed(2)} mph`;
+    this.setState({ infoIndex, infoText });
   };
 
   siderStyle = {
@@ -44,7 +48,7 @@ class App extends Component {
   };
   render() {
     const { coords } = this.state.data;
-    const { color, loading } = this.state;
+    const { color, loading, infoIndex, infoText } = this.state;
     return (
       <Row>
         <Col span={18}>
@@ -52,6 +56,8 @@ class App extends Component {
             coords={coords}
             color={color}
             onLineClick={this.handleLineClick.bind(this)}
+            infoIndex={infoIndex}
+            infoText={infoText}
           />
         </Col>
         <Col span={6} style={this.siderStyle}>
