@@ -33,33 +33,35 @@ const MapComponent = compose(
         zIndex: 1
       }}
     />
-    <Marker
-      position={{
-        lat: props.coords[props.infoIndex].lat,
-        lng: props.coords[props.infoIndex].lng
-      }}
-    >
-      <InfoBox options={{ closeBoxURL: ``, enableEventPropagation: true }}>
-        <div
-          style={{
-            backgroundColor: `white`,
-            opacity: 0.75,
-            padding: `5px`,
-            width: `150px`
-          }}
-        >
+    {props.coords[0] && (
+      <Marker
+        position={{
+          lat: props.coords[props.infoIndex].lat,
+          lng: props.coords[props.infoIndex].lng
+        }}
+      >
+        <InfoBox options={{ closeBoxURL: ``, enableEventPropagation: true }}>
           <div
             style={{
-              fontSize: `16px`,
-              fontColor: `#08233B`,
-              textAlign: `center`
+              backgroundColor: `white`,
+              opacity: 0.75,
+              padding: `5px`,
+              width: `150px`
             }}
           >
-            {props.infoText}
+            <div
+              style={{
+                fontSize: `16px`,
+                fontColor: `#08233B`,
+                textAlign: `center`
+              }}
+            >
+              {props.infoText}
+            </div>
           </div>
-        </div>
-      </InfoBox>
-    </Marker>
+        </InfoBox>
+      </Marker>
+    )}
   </GoogleMap>
 ));
 
