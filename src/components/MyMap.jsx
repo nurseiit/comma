@@ -5,7 +5,14 @@ class MyMap extends React.PureComponent {
   componentWillMount() {}
 
   render() {
-    const { coords, color, onLineClick, infoIndex, infoText } = this.props;
+    const {
+      coords,
+      color,
+      onLineClick,
+      infoIndex,
+      infoText,
+      loading
+    } = this.props;
     return (
       <MapComponent
         coords={coords}
@@ -13,6 +20,7 @@ class MyMap extends React.PureComponent {
         color={color}
         infoIndex={infoIndex}
         infoText={infoText}
+        loading={loading}
       />
     );
   }

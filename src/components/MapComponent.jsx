@@ -22,45 +22,47 @@ const MapComponent = compose(
   withGoogleMap
 )(props => (
   <GoogleMap defaultZoom={11} defaultCenter={{ lat: 37.6555, lng: -122.4 }}>
-    <Polyline
-      path={props.coords}
-      onClick={props.onLineClick}
-      geodesic={true}
-      options={{
-        strokeColor: props.color,
-        strokeOpacity: 0.5,
-        strokeWeight: 4.5,
-        zIndex: 1
-      }}
-    />
-    {props.coords[0] && (
-      <Marker
-        position={{
-          lat: props.coords[props.infoIndex].lat,
-          lng: props.coords[props.infoIndex].lng
-        }}
-      >
-        <InfoBox options={{ closeBoxURL: ``, enableEventPropagation: true }}>
-          <div
-            style={{
-              backgroundColor: `white`,
-              opacity: 0.75,
-              padding: `5px`,
-              width: `150px`
-            }}
-          >
+    {!props.loading && (
+      <div>
+        <Polyline
+          path={props.coords}
+          onClick={props.onLineClick}
+          geodesic={true}
+          options={{
+            strokeColor: props.color,
+            strokeOpacity: 0.5,
+            strokeWeight: 4.5,
+            zIndex: 1
+          }}
+        />
+        <Marker
+          position={{
+            lat: props.coords[props.infoIndex].lat,
+            lng: props.coords[props.infoIndex].lng
+          }}
+        >
+          <InfoBox options={{ closeBoxURL: ``, enableEventPropagation: true }}>
             <div
               style={{
-                fontSize: `16px`,
-                fontColor: `#08233B`,
-                textAlign: `center`
+                backgroundColor: `white`,
+                opacity: 0.75,
+                padding: `5px`,
+                width: `150px`
               }}
             >
-              {props.infoText}
+              <div
+                style={{
+                  fontSize: `16px`,
+                  fontColor: `#08233B`,
+                  textAlign: `center`
+                }}
+              >
+                {props.infoText}
+              </div>
             </div>
-          </div>
-        </InfoBox>
-      </Marker>
+          </InfoBox>
+        </Marker>
+      </div>
     )}
   </GoogleMap>
 ));

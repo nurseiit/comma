@@ -60,6 +60,7 @@ class App extends Component {
             onLineClick={this.handleLineClick.bind(this)}
             infoIndex={infoIndex}
             infoText={infoText}
+            loading={loading}
           />
         </Col>
         <Col span={6} style={this.siderStyle}>
