@@ -44,6 +44,9 @@ export default class helpers {
     );
   };
 
+  static secondsFromInterval = (start, end) =>
+    Math.floor((helpers.parseDate(end) - helpers.parseDate(start)) / 1000);
+
   static findByCoords = (lat, lng, coords) => {
     let sq = x => x * x;
     let dst = x => sq(x.lat - lat) + sq(x.lng - lng);

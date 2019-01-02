@@ -9,10 +9,8 @@ const TripCards = props => {
   let distance = (coords.length ? coords[coords.length - 1].dist : 0.0).toFixed(
     2
   );
-  let speed_avg = (coords.length
-    ? coords.map(x => x.speed).reduce((a, b) => a + b, 0) / coords.length
-    : 0
-  ).toFixed(2);
+  let time = helpers.secondsFromInterval(start_time, end_time) / 3600;
+  let speed_avg = (coords.length ? distance / time : 0).toFixed(2);
   trips.push(
     <TripInfo
       loading={loading}

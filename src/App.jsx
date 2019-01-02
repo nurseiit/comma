@@ -7,6 +7,8 @@ import TripCards from "./components/TripCards";
 import readFile from "./methods/readFile";
 import helpers from "./methods/helpers";
 
+const MS_TO_MPH = 2.23694;
+
 class App extends Component {
   state = {
     data: {
@@ -38,7 +40,7 @@ class App extends Component {
     let lng = e.latLng.lng();
     let currentData = helpers.findByCoords(lat, lng, this.state.data.coords);
     let infoIndex = currentData.index;
-    let infoText = `Speed: ${currentData.speed.toFixed(2)} mph`;
+    let infoText = `Speed: ${(MS_TO_MPH * currentData.speed).toFixed(2)} mph`;
     this.setState({ infoIndex, infoText });
   };
 
