@@ -43,4 +43,13 @@ export default class helpers {
       "."
     );
   };
+
+  static findByCoords = (lat, lng, coords) => {
+    let sq = x => x * x;
+    let dst = x => sq(x.lat - lat) + sq(x.lng - lng);
+    return coords.reduce(
+      (prev, next) => (dst(prev) < dst(next) ? prev : next),
+      coords[0]
+    );
+  };
 }

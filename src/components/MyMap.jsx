@@ -1,12 +1,15 @@
 import React from "react";
-
+import helpers from "../methods/helpers";
 import MapComponent from "./MapComponent";
 
 class MyMap extends React.PureComponent {
   componentWillMount() {}
 
   handleLineClick = e => {
-    console.log(e);
+    let lat = e.latLng.lat();
+    let lng = e.latLng.lng();
+    let currentData = helpers.findByCoords(lat, lng, this.props.coords);
+    console.log(currentData);
   };
 
   render() {
@@ -14,7 +17,7 @@ class MyMap extends React.PureComponent {
     return (
       <MapComponent
         coords={coords}
-        onLineClick={this.handleLineClick}
+        onLineClick={this.handleLineClick.bind(this)}
         color={color}
       />
     );
