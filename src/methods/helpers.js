@@ -1,4 +1,4 @@
-export default class drawHelpers {
+export default class helpers {
   static colorFromName = name => {
     const getHash = str =>
       str
@@ -12,14 +12,17 @@ export default class drawHelpers {
     while (col_str.length < 6) col_str = "0" + col_str;
     return "#" + col_str;
   };
+
   static nameFromDate = str =>
     str.substring(0, 10) + " " + str.substring(11).replace("-", ":");
+
   static parseDate = str =>
     Date.parse(
       str.substring(0, 10) + " " + str.substring(11).replace("-", ":")
     );
+
   static lengthFromInterval = (start, end) => {
-    let ms = drawHelpers.parseDate(end) - drawHelpers.parseDate(start);
+    let ms = helpers.parseDate(end) - helpers.parseDate(start);
     let sec = Math.floor(ms / 1000);
     let hour = Math.floor(sec / 3600);
     sec -= hour * 3600;

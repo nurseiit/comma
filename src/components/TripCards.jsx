@@ -1,6 +1,6 @@
 import React from "react";
 import TripInfo from "./TripInfo";
-import drawHelpers from "../methods/drawHelpers";
+import helpers from "../methods/helpers";
 
 const TripCards = props => {
   const trips = [];
@@ -10,9 +10,9 @@ const TripCards = props => {
       <TripInfo
         loading={loading}
         index={i}
-        title={drawHelpers.nameFromDate(start_time)}
+        title={helpers.nameFromDate(start_time)}
         color={color}
-        length={drawHelpers.lengthFromInterval(start_time, end_time)}
+        length={helpers.lengthFromInterval(start_time, end_time)}
       />
     );
   }

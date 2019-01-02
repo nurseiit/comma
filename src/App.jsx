@@ -5,7 +5,7 @@ import { Row, Col } from "antd";
 import MyMap from "./components/MyMap";
 import TripCards from "./components/TripCards";
 import readFile from "./methods/readFile";
-import drawHelpers from "./methods/drawHelpers";
+import helpers from "./methods/helpers";
 
 class App extends Component {
   state = {
@@ -24,7 +24,7 @@ class App extends Component {
         this.setState({
           data,
           loading: false,
-          color: drawHelpers.colorFromName(data.start_time)
+          color: helpers.colorFromName(data.start_time)
         });
         return data;
       })

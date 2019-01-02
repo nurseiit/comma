@@ -15,7 +15,7 @@ const TripInfo = props => {
   return (
     <Popover placement="left" title={text} content={content} trigger="hover">
       <Card
-        style={{ width: "100%", margin: "0" }}
+        style={{ width: "100%", margin: "auto" }}
         //actions={[<Icon type="eye" />, <Icon type="car" />]}
         hoverable={true}
       >
