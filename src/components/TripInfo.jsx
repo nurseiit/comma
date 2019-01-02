@@ -4,12 +4,16 @@ import { Popover, Card, Skeleton, Avatar } from "antd";
 const { Meta } = Card;
 
 const TripInfo = props => {
-  const { loading, index, color, title, length } = props;
-  const text = <span>Info</span>;
+  const { loading, index, color, title, length, distance, speed_avg } = props;
+  const text = <span>Trip #{index + 1}</span>;
   const content = (
     <div>
-      <p>Content</p>
-      <p>Content</p>
+      <p>
+        Total distance: <b>{distance}</b> miles.
+      </p>
+      <p>
+        Average speed: <b>{speed_avg}</b> mph.
+      </p>
     </div>
   );
   return (

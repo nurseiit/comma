@@ -36,7 +36,7 @@ class App extends Component {
     overflowY: "scroll"
   };
   render() {
-    const { coords, start_time, end_time } = this.state.data;
+    const { coords } = this.state.data;
     const { color, loading } = this.state;
     return (
       <Row>
@@ -44,12 +44,7 @@ class App extends Component {
           <MyMap coords={coords} color={color} />
         </Col>
         <Col span={6} style={this.siderStyle}>
-          <TripCards
-            loading={loading}
-            color={color}
-            start_time={start_time}
-            end_time={end_time}
-          />
+          <TripCards loading={loading} color={color} data={this.state.data} />
         </Col>
       </Row>
     );
