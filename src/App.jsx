@@ -3,9 +3,9 @@ import "antd/dist/antd.css";
 import { Row, Col } from "antd";
 
 import MyMap from "./components/MyMap";
-import TripInfo from "./components/TripInfo";
+import TripCards from "./components/TripCards";
 import readFile from "./methods/readFile";
-import colorFromName from "./methods/drawHelpers";
+import drawHelpers from "./methods/drawHelpers";
 
 class App extends Component {
   state = {
@@ -21,11 +21,10 @@ class App extends Component {
     readFile("2016-07-02--11-56-24.json")
       .then(response => response.json())
       .then(data => {
-        let color = colorFromName(data.start_time);
         this.setState({
           data,
           loading: false,
-          color
+          color: drawHelpers.colorFromName(data.start_time)
         });
         return data;
       })
@@ -37,26 +36,15 @@ class App extends Component {
     overflowY: "scroll"
   };
   render() {
-    const trips = [];
-    for (let i = 0; i < 1; i++) {
-      const { loading, color } = this.state;
-      trips.push(
-        <TripInfo
-          loading={loading}
-          index={i}
-          title={"11:53, May 15, 2017"}
-          color={color}
-        />
-      );
-    }
-    const { coords } = this.state.data;
+    const { coords, start_time } = this.state.data;
+    const { color, loading } = this.state;
     return (
       <Row>
         <Col span={18}>
-          <MyMap coords={coords} color={this.state.color} />
+          <MyMap coords={coords} color={color} />
         </Col>
         <Col span={6} style={this.siderStyle}>
-          {trips}
+          <TripCards loading={loading} color={color} start_time={start_time} />
         </Col>
       </Row>
     );
