@@ -31,6 +31,13 @@ class App extends Component {
       .catch(console.log);
   }
 
+  handleLineClick = e => {
+    let lat = e.latLng.lat();
+    let lng = e.latLng.lng();
+    let currentData = helpers.findByCoords(lat, lng, this.state.data.coords);
+    console.log(currentData);
+  };
+
   siderStyle = {
     height: "100vh",
     overflowY: "scroll"
@@ -41,7 +48,11 @@ class App extends Component {
     return (
       <Row>
         <Col span={18}>
-          <MyMap coords={coords} color={color} />
+          <MyMap
+            coords={coords}
+            color={color}
+            onLineClick={this.handleLineClick.bind(this)}
+          />
         </Col>
         <Col span={6} style={this.siderStyle}>
           <TripCards loading={loading} color={color} data={this.state.data} />
