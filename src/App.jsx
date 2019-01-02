@@ -19,7 +19,7 @@ class App extends Component {
     infoIndex: 0,
     infoText: "Click on the lines"
   };
-  componentWillMount() {
+  componentDidMount() {
     readFile("2016-07-02--11-56-24.json")
       .then(response => response.json())
       .then(data => {

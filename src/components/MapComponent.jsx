@@ -38,7 +38,6 @@ const MapComponent = compose(
         lat: props.coords[props.infoIndex].lat,
         lng: props.coords[props.infoIndex].lng
       }}
-      onClick={props.onToggleOpen}
     >
       <InfoBox options={{ closeBoxURL: ``, enableEventPropagation: true }}>
         <div
@@ -49,7 +48,13 @@ const MapComponent = compose(
             width: `150px`
           }}
         >
-          <div style={{ fontSize: `16px`, fontColor: `#08233B` }}>
+          <div
+            style={{
+              fontSize: `16px`,
+              fontColor: `#08233B`,
+              textAlign: `center`
+            }}
+          >
             {props.infoText}
           </div>
         </div>
