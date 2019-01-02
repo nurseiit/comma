@@ -18,6 +18,7 @@ class App extends Component {
     },
     loading: true,
     color: "",
+    isActive: false,
     infoIndex: 0,
     infoText: "Click on the lines"
   };
@@ -44,13 +45,22 @@ class App extends Component {
     this.setState({ infoIndex, infoText });
   };
 
+  cardMouseEnter = e => {
+    //let index = e.currentTarget.id;
+    this.setState({ isActive: true });
+  };
+  cardMouseLeave = e => {
+    //let index = e.currentTarget.id;
+    this.setState({ isActive: false });
+  };
+
   siderStyle = {
     height: "100vh",
     overflowY: "scroll"
   };
   render() {
     const { coords } = this.state.data;
-    const { color, loading, infoIndex, infoText } = this.state;
+    const { color, loading, infoIndex, infoText, isActive } = this.state;
     return (
       <Row>
         <Col span={18}>
@@ -61,10 +71,17 @@ class App extends Component {
             infoIndex={infoIndex}
             infoText={infoText}
             loading={loading}
+            isActive={isActive}
           />
         </Col>
         <Col span={6} style={this.siderStyle}>
-          <TripCards loading={loading} color={color} data={this.state.data} />
+          <TripCards
+            loading={loading}
+            color={color}
+            data={this.state.data}
+            onMouseEnter={this.cardMouseEnter.bind(this)}
+            onMouseLeave={this.cardMouseLeave.bind(this)}
+          />
         </Col>
       </Row>
     );

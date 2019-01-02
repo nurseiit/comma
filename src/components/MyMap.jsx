@@ -11,7 +11,8 @@ class MyMap extends React.PureComponent {
       onLineClick,
       infoIndex,
       infoText,
-      loading
+      loading,
+      isActive
     } = this.props;
     return (
       <MapComponent
@@ -21,6 +22,7 @@ class MyMap extends React.PureComponent {
         infoIndex={infoIndex}
         infoText={infoText}
         loading={loading}
+        isActive={isActive}
       />
     );
   }

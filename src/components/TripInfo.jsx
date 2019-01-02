@@ -4,7 +4,17 @@ import { Popover, Card, Skeleton, Avatar } from "antd";
 const { Meta } = Card;
 
 const TripInfo = props => {
-  const { loading, index, color, title, length, distance, speed_avg } = props;
+  const {
+    loading,
+    index,
+    color,
+    title,
+    length,
+    distance,
+    speed_avg,
+    onMouseEnter,
+    onMouseLeave
+  } = props;
   const text = <span>Trip #{index + 1}</span>;
   const content = (
     <div>
@@ -22,6 +32,9 @@ const TripInfo = props => {
         style={{ width: "100%", margin: "auto" }}
         //actions={[<Icon type="eye" />, <Icon type="car" />]}
         hoverable={true}
+        id={index}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       >
         <Skeleton loading={loading} avatar active>
           <Meta

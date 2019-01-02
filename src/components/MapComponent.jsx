@@ -30,7 +30,7 @@ const MapComponent = compose(
           geodesic={true}
           options={{
             strokeColor: props.color,
-            strokeOpacity: 0.5,
+            strokeOpacity: props.isActive ? 0.99 : 0.35,
             strokeWeight: 4.5,
             zIndex: 1
           }}
