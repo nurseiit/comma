@@ -4,7 +4,7 @@ import { Popover, Card, Skeleton, Avatar } from "antd";
 const { Meta } = Card;
 
 const TripInfo = props => {
-  const { loading, index, color, title } = props;
+  const { loading, index, color, title, length } = props;
   const text = <span>Info</span>;
   const content = (
     <div>
@@ -37,7 +37,7 @@ const TripInfo = props => {
               </Avatar>
             }
             title={title}
-            description={`Lasted for 30 minutes.`}
+            description={`Lasted for ${length}`}
           />
         </Skeleton>
       </Card>
