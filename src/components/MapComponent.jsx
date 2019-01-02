@@ -8,8 +8,6 @@ import {
   Polyline
 } from "react-google-maps";
 
-import colorFromName from "../methods/drawHelpers";
-
 const MapComponent = compose(
   withProps({
     googleMapURL:
@@ -33,7 +31,7 @@ const MapComponent = compose(
       onClick={props.onLineClick}
       geodesic={true}
       options={{
-        strokeColor: colorFromName(props.name),
+        strokeColor: props.color,
         strokeOpacity: 0.5,
         strokeWeight: 4.5,
         zIndex: 1
