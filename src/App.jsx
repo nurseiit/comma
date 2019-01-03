@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "antd/dist/antd.css";
 import { Row, Col } from "antd";
 
-import MyMap from "./components/MyMap";
+import MapComponent from "./components/MapComponent";
 import TripCards from "./components/TripCards";
 import readFile from "./methods/readFile";
 import helpers from "./methods/helpers";
@@ -66,7 +66,7 @@ class App extends Component {
     return (
       <Row>
         <Col span={18}>
-          <MyMap
+          <MapComponent
             coords={coords}
             color={color}
             onLineClick={this.handleLineClick.bind(this)}
