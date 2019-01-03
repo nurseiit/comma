@@ -62,25 +62,18 @@ class App extends Component {
   };
   render() {
     const { coords } = this.state.data;
-    const { color, loading, infoIndex, infoText, isActive } = this.state;
     return (
       <Row>
         <Col span={18}>
           <MapComponent
+            {...this.state}
             coords={coords}
-            color={color}
             onLineClick={this.handleLineClick.bind(this)}
-            infoIndex={infoIndex}
-            infoText={infoText}
-            loading={loading}
-            isActive={isActive}
           />
         </Col>
         <Col span={6} style={this.siderStyle}>
           <TripCards
-            loading={loading}
-            color={color}
-            data={this.state.data}
+            {...this.state}
             onMouseEnter={this.cardMouseEnter.bind(this)}
             onMouseLeave={this.cardMouseLeave.bind(this)}
           />
