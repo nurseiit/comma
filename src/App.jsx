@@ -7,6 +7,8 @@ import TripCards from "./components/TripCards";
 import readFile from "./methods/readFile";
 import helpers from "./methods/helpers";
 
+import fileNames from "./other/fileNames";
+
 const MS_TO_MPH = 2.23694;
 
 class App extends Component {
@@ -23,7 +25,7 @@ class App extends Component {
     infoText: "Click on the lines"
   };
   componentDidMount() {
-    readFile("2016-07-02--11-56-24.json")
+    readFile(fileNames[2])
       .then(response => response.json())
       .then(data => {
         this.setState({
