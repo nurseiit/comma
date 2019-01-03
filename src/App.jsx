@@ -25,13 +25,13 @@ class App extends Component {
     infoText: "Click on the lines"
   };
   componentDidMount() {
-    readFile(fileNames[2])
+    readFile(fileNames[7])
       .then(response => response.json())
       .then(data => {
         this.setState({
           data,
           loading: false,
-          color: helpers.colorFromName(data.start_time)
+          color: helpers.colorFromName(data.start_time + data.end_time)
         });
         return data;
       })
