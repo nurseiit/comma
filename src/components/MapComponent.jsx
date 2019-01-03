@@ -21,7 +21,7 @@ const MapComponent = compose(
   withScriptjs,
   withGoogleMap
 )(props => (
-  <GoogleMap defaultZoom={11} defaultCenter={{ lat: 37.6555, lng: -122.4 }}>
+  <GoogleMap defaultZoom={9} defaultCenter={{ lat: 37.5555, lng: -122.4 }}>
     {!props.loading && (
       <div>
         <Polyline
