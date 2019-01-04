@@ -13,12 +13,17 @@ const MS_TO_MPH = 2.23694;
 
 class App extends Component {
   state = {
+    loaded: false,
     list: [],
     infoIndex: 0,
     infoText: "Click on the lines",
-    activeIndex: -1
+    activeIndex: -1,
+    activeElement: {}
   };
+
+  defaultInfoText = "Click on the lines";
   names = [];
+
   componentWillMount() {
     let list = [];
     console.log(fileNames.length);
@@ -41,12 +46,12 @@ class App extends Component {
   }
   componentDidMount() {}
   onMapLoaded = () => {
+    if (this.state.loaded) return;
+    this.setState({ loaded: true });
     const ele = document.getElementById("ipl-progress-indicator");
     if (ele) {
-      // fade out
       ele.classList.add("available");
       setTimeout(() => {
-        // remove from DOM
         ele.outerHTML = "";
       }, 2000);
     }
@@ -72,11 +77,13 @@ class App extends Component {
     );
   };
   handleLineClick = e => {
-    console.log(e);
-    return;
     let lat = e.latLng.lat();
     let lng = e.latLng.lng();
-    let currentData = helpers.findByCoords(lat, lng, this.state.data.coords);
+    let currentData = helpers.findByCoords(
+      lat,
+      lng,
+      this.state.activeElement.data.coords
+    );
     let infoIndex = currentData.index;
     let infoText = `Speed: ${(MS_TO_MPH * currentData.speed).toFixed(2)} mph`;
     this.setState({ infoIndex, infoText });
@@ -84,10 +91,19 @@ class App extends Component {
 
   cardMouseEnter = e => {
     let activeIndex = e.currentTarget.id;
-    this.setState({ activeIndex });
+    this.setState(prevState => {
+      let activeElement = prevState.list[activeIndex];
+      return {
+        activeIndex,
+        activeElement,
+        isMarkerShown: true,
+        infoIndex: 0,
+        infoText: this.defaultInfoText
+      };
+    });
   };
   cardMouseLeave = e => {
-    this.setState({ activeIndex: -1 });
+    //    this.setState({ activeIndex: -1 });
   };
 
   siderStyle = {
@@ -100,7 +116,7 @@ class App extends Component {
         <Col span={18}>
           <MapComponent
             {...this.state}
-            onLoaded={this.onMapLoaded}
+            onLoaded={this.onMapLoaded.bind(this)}
             onLineClick={this.handleLineClick.bind(this)}
           />
         </Col>

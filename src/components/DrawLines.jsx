@@ -4,18 +4,22 @@ import { Marker, Polyline } from "react-google-maps";
 const { InfoBox } = require("react-google-maps/lib/components/addons/InfoBox");
 
 const DrawLines = props => {
-  const { onLineClick, infoIndex, infoText } = props;
-
-  const { list, activeIndex } = props;
+  const {
+    onLineClick,
+    infoIndex,
+    infoText,
+    isMarkerShown,
+    activeElement,
+    activeIndex
+  } = props;
 
   if (activeIndex === -1) {
     return <div />;
   }
 
-  let Lines;
-  const { id, loading, color, isMarkerShown } = list[activeIndex];
-  const { coords } = list[activeIndex].data;
-  Lines = (
+  const { id, loading, color } = activeElement;
+  const { coords } = activeElement.data;
+  return (
     <div key={`${id}`}>
       {!loading && (
         <div key={id}>
@@ -66,7 +70,6 @@ const DrawLines = props => {
       )}
     </div>
   );
-  return <div>{Lines}</div>;
 };
 
 export default DrawLines;
