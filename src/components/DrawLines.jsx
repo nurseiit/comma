@@ -6,65 +6,66 @@ const { InfoBox } = require("react-google-maps/lib/components/addons/InfoBox");
 const DrawLines = props => {
   const { onLineClick, infoIndex, infoText } = props;
 
-  const { list, isSingle } = props;
+  const { list, activeIndex } = props;
 
-  let Lines = [];
+  if (activeIndex === -1) {
+    return <div />;
+  }
 
-  for (let i = 0; i < list.length; i++) {
-    const { id, loading, color, isActive, isMarkerShown } = list[i];
-    const { coords } = list[i].data;
-    Lines.push(
-      <div key={`${id}`}>
-        {!loading && (
-          <div key={id}>
-            <Polyline
-              id={id}
-              path={coords}
-              onClick={onLineClick}
-              geodesic={true}
-              options={{
-                strokeColor: color,
-                strokeOpacity: isActive ? 0.99 : !isSingle ? 0.35 : 0.0,
-                strokeWeight: 4.5,
-                zIndex: 1
+  let Lines;
+  const { id, loading, color, isMarkerShown } = list[activeIndex];
+  const { coords } = list[activeIndex].data;
+  Lines = (
+    <div key={`${id}`}>
+      {!loading && (
+        <div key={id}>
+          <Polyline
+            id={id}
+            path={coords}
+            onClick={onLineClick}
+            geodesic={true}
+            options={{
+              strokeColor: color,
+              strokeOpacity: 0.99,
+              strokeWeight: 4.5,
+              zIndex: 1
+            }}
+          />
+          {isMarkerShown && (
+            <Marker
+              position={{
+                lat: coords[infoIndex].lat,
+                lng: coords[infoIndex].lng
               }}
-            />
-            {isMarkerShown && (
-              <Marker
-                position={{
-                  lat: coords[infoIndex].lat,
-                  lng: coords[infoIndex].lng
-                }}
+            >
+              <InfoBox
+                options={{ closeBoxURL: ``, enableEventPropagation: true }}
               >
-                <InfoBox
-                  options={{ closeBoxURL: ``, enableEventPropagation: true }}
+                <div
+                  style={{
+                    backgroundColor: `white`,
+                    opacity: 0.75,
+                    padding: `5px`,
+                    width: `150px`
+                  }}
                 >
                   <div
                     style={{
-                      backgroundColor: `white`,
-                      opacity: 0.75,
-                      padding: `5px`,
-                      width: `150px`
+                      fontSize: `16px`,
+                      fontColor: `#08233B`,
+                      textAlign: `center`
                     }}
                   >
-                    <div
-                      style={{
-                        fontSize: `16px`,
-                        fontColor: `#08233B`,
-                        textAlign: `center`
-                      }}
-                    >
-                      {infoText}
-                    </div>
+                    {infoText}
                   </div>
-                </InfoBox>
-              </Marker>
-            )}
-          </div>
-        )}
-      </div>
-    );
-  }
+                </div>
+              </InfoBox>
+            </Marker>
+          )}
+        </div>
+      )}
+    </div>
+  );
   return <div>{Lines}</div>;
 };
 

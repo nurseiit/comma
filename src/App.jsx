@@ -16,19 +16,18 @@ class App extends Component {
     list: [],
     infoIndex: 0,
     infoText: "Click on the lines",
-    isSingle: false
+    activeIndex: -1
   };
   names = [];
   componentWillMount() {
     let list = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 50; i++) {
       this.names.push(fileNames[i]);
       let data = {
         id: i,
         name: fileNames[i],
         loading: true,
         color: "",
-        isActive: false,
         data: {
           coords: [],
           start_time: "",
@@ -38,6 +37,7 @@ class App extends Component {
       list.push(data);
     }
     this.setState({ list });
+    console.log("Done");
   }
   componentDidMount() {
     this.names.forEach(fileName =>
@@ -51,7 +51,6 @@ class App extends Component {
               id: index,
               name: fileName,
               loading: false,
-              isActive: false,
               color: helpers.colorFromName(data.start_time + data.end_time),
               data: data
             };
@@ -75,20 +74,11 @@ class App extends Component {
   };
 
   cardMouseEnter = e => {
-    let index = e.currentTarget.id;
-    this.setState(prevState => {
-      let list = prevState.list;
-      list[index].isActive = true;
-      return { list, isSingle: true };
-    });
+    let activeIndex = e.currentTarget.id;
+    this.setState({ activeIndex });
   };
   cardMouseLeave = e => {
-    let index = e.currentTarget.id;
-    this.setState(prevState => {
-      let list = prevState.list;
-      list[index].isActive = false;
-      return { list, isSingle: false };
-    });
+    this.setState({ activeIndex: -1 });
   };
 
   siderStyle = {
