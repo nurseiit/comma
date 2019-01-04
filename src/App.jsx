@@ -15,6 +15,7 @@ class App extends Component {
   state = {
     loaded: false,
     list: [],
+    minList: [],
     infoIndex: 0,
     infoText: "Click on the lines",
     activeIndex: -1,
@@ -26,6 +27,7 @@ class App extends Component {
 
   componentWillMount() {
     let list = [];
+    let minList = [];
     for (let i = 0; i < 50; i++) {
       this.names.push(fileNames[i]);
       let data = {
@@ -39,11 +41,19 @@ class App extends Component {
           end_time: ""
         }
       };
+      let minData = {
+        id: i,
+        name: fileNames[i],
+        loading: true,
+        color: "",
+        start_time: "",
+        end_time: ""
+      };
       list.push(data);
+      minList.push(minData);
     }
-    this.setState({ list });
+    this.setState({ list, minList });
   }
-  componentDidMount() {}
   onMapLoaded = () => {
     if (this.state.loaded) return;
     this.setState({ loaded: true });
@@ -60,15 +70,27 @@ class App extends Component {
         .then(data => {
           this.setState(prevState => {
             let list = prevState.list;
+            let minList = prevState.minList;
             let index = list.findIndex(x => x.name === fileName);
+            let color = helpers.colorFromName(data.start_time + data.end_time);
             list[index] = {
               id: index,
               name: fileName,
               loading: false,
-              color: helpers.colorFromName(data.start_time + data.end_time),
+              color,
               data: data
             };
-            return { list };
+            minList[index] = {
+              id: index,
+              name: fileName,
+              loading: false,
+              color,
+              start_time: data.start_time,
+              end_time: data.end_time,
+              coordLen: data.coords.length,
+              coordLastDist: data.coords[data.coords.length - 1].dist
+            };
+            return { list, minList };
           });
           return data;
         })
@@ -101,9 +123,6 @@ class App extends Component {
       };
     });
   };
-  cardMouseLeave = e => {
-    //    this.setState({ activeIndex: -1 });
-  };
 
   siderStyle = {
     height: "100vh",
@@ -123,7 +142,6 @@ class App extends Component {
           <TripCards
             {...this.state}
             onMouseEnter={this.cardMouseEnter.bind(this)}
-            onMouseLeave={this.cardMouseLeave.bind(this)}
           />
         </Col>
       </Row>
