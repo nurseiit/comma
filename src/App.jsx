@@ -28,7 +28,7 @@ class App extends Component {
   componentWillMount() {
     let list = [];
     let minList = [];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < fileNames.length; i++) {
       this.names.push(fileNames[i]);
       let data = {
         id: i,
