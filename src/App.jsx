@@ -13,32 +13,58 @@ const MS_TO_MPH = 2.23694;
 
 class App extends Component {
   state = {
-    data: {
-      coords: [],
-      start_time: "",
-      end_time: ""
-    },
-    loading: true,
-    color: "",
-    isActive: false,
+    list: [],
     infoIndex: 0,
     infoText: "Click on the lines"
   };
+  names = [];
+  componentWillMount() {
+    let list = [];
+    for (let i = 0; i < 10; i++) {
+      this.names.push(fileNames[i]);
+      let data = {
+        id: i,
+        name: fileNames[i],
+        loading: true,
+        color: "",
+        isActive: false,
+        data: {
+          coords: [],
+          start_time: "",
+          end_time: ""
+        }
+      };
+      list.push(data);
+    }
+    this.setState({ list });
+  }
   componentDidMount() {
-    readFile(fileNames[7])
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          data,
-          loading: false,
-          color: helpers.colorFromName(data.start_time + data.end_time)
-        });
-        return data;
-      })
-      .catch(console.log);
+    this.names.forEach(fileName =>
+      readFile(fileName)
+        .then(response => response.json())
+        .then(data => {
+          this.setState(prevState => {
+            let list = prevState.list;
+            let index = list.findIndex(x => x.name === fileName);
+            list[index] = {
+              id: index,
+              name: fileName,
+              loading: false,
+              isActive: false,
+              color: helpers.colorFromName(data.start_time + data.end_time),
+              data: data
+            };
+            return { list };
+          });
+          return data;
+        })
+        .catch(console.log)
+    );
   }
 
   handleLineClick = e => {
+    console.log(e);
+    return;
     let lat = e.latLng.lat();
     let lng = e.latLng.lng();
     let currentData = helpers.findByCoords(lat, lng, this.state.data.coords);
@@ -61,13 +87,11 @@ class App extends Component {
     overflowY: "scroll"
   };
   render() {
-    const { coords } = this.state.data;
     return (
       <Row>
         <Col span={18}>
           <MapComponent
             {...this.state}
-            coords={coords}
             onLineClick={this.handleLineClick.bind(this)}
           />
         </Col>
