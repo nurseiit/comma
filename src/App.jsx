@@ -21,6 +21,7 @@ class App extends Component {
   names = [];
   componentWillMount() {
     let list = [];
+    console.log(fileNames.length);
     for (let i = 0; i < 50; i++) {
       this.names.push(fileNames[i]);
       let data = {
@@ -37,9 +38,18 @@ class App extends Component {
       list.push(data);
     }
     this.setState({ list });
-    console.log("Done");
   }
-  componentDidMount() {
+  componentDidMount() {}
+  onMapLoaded = () => {
+    const ele = document.getElementById("ipl-progress-indicator");
+    if (ele) {
+      // fade out
+      ele.classList.add("available");
+      setTimeout(() => {
+        // remove from DOM
+        ele.outerHTML = "";
+      }, 2000);
+    }
     this.names.forEach(fileName =>
       readFile(fileName)
         .then(response => response.json())
@@ -60,8 +70,7 @@ class App extends Component {
         })
         .catch(console.log)
     );
-  }
-
+  };
   handleLineClick = e => {
     console.log(e);
     return;
@@ -91,6 +100,7 @@ class App extends Component {
         <Col span={18}>
           <MapComponent
             {...this.state}
+            onLoaded={this.onMapLoaded}
             onLineClick={this.handleLineClick.bind(this)}
           />
         </Col>
