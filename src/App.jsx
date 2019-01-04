@@ -13,8 +13,8 @@ const MS_TO_MPH = 2.23694;
 
 class App extends Component {
   state = {
-    loaded: false,
     list: [],
+    minList: [],
     infoIndex: 0,
     infoText: "Click on the lines",
     activeIndex: -1,
@@ -23,10 +23,58 @@ class App extends Component {
 
   defaultInfoText = "Click on the lines";
   names = [];
+  loaded = false;
+  loadList = [];
+
+  openFile = fileIndex => {
+    if (
+      fileIndex >= this.names.length ||
+      fileIndex < 0 ||
+      this.loadList.includes(fileIndex)
+    )
+      return "";
+    let fileName = this.names[fileIndex];
+    return readFile(fileName)
+      .then(response => response.json())
+      .then(data => {
+        this.setState(prevState => {
+          let list = prevState.list;
+          let minList = prevState.minList;
+          let index = fileIndex;
+          let color = helpers.colorFromName(data.start_time + data.end_time);
+          list[index] = {
+            id: index,
+            name: fileName,
+            loading: false,
+            color,
+            data: data
+          };
+          minList[index] = {
+            id: index,
+            name: fileName,
+            loading: false,
+            color,
+            start_time: data.start_time,
+            end_time: data.end_time,
+            coordLen: data.coords.length,
+            coordLastDist: data.coords[data.coords.length - 1].dist
+          };
+          this.loadList.push(fileIndex);
+          return {
+            list,
+            minList
+          };
+        });
+        return data;
+      })
+      .catch(console.log);
+  };
 
   componentWillMount() {
+    fileNames.sort();
     let list = [];
-    for (let i = 0; i < 50; i++) {
+    let minList = [];
+    for (let i = 0; i < fileNames.length; i++) {
       this.names.push(fileNames[i]);
       let data = {
         id: i,
@@ -39,14 +87,23 @@ class App extends Component {
           end_time: ""
         }
       };
+      let minData = {
+        id: i,
+        name: fileNames[i],
+        loading: true,
+        color: "",
+        start_time: "",
+        end_time: ""
+      };
       list.push(data);
+      minList.push(minData);
     }
-    this.setState({ list });
+    this.setState({ list, minList });
   }
-  componentDidMount() {}
+
   onMapLoaded = () => {
-    if (this.state.loaded) return;
-    this.setState({ loaded: true });
+    if (this.loaded) return;
+    this.loaded = true;
     const ele = document.getElementById("ipl-progress-indicator");
     if (ele) {
       ele.classList.add("available");
@@ -54,26 +111,7 @@ class App extends Component {
         ele.outerHTML = "";
       }, 2000);
     }
-    this.names.forEach(fileName =>
-      readFile(fileName)
-        .then(response => response.json())
-        .then(data => {
-          this.setState(prevState => {
-            let list = prevState.list;
-            let index = list.findIndex(x => x.name === fileName);
-            list[index] = {
-              id: index,
-              name: fileName,
-              loading: false,
-              color: helpers.colorFromName(data.start_time + data.end_time),
-              data: data
-            };
-            return { list };
-          });
-          return data;
-        })
-        .catch(console.log)
-    );
+    for (let i = 0; i < 10; i++) this.openFile(i);
   };
   handleLineClick = e => {
     let lat = e.latLng.lat();
@@ -90,6 +128,9 @@ class App extends Component {
 
   cardMouseEnter = e => {
     let activeIndex = e.currentTarget.id;
+    for (let i = 0; i < 3; i++) {
+      this.openFile(parseInt(activeIndex) + i);
+    }
     this.setState(prevState => {
       let activeElement = prevState.list[activeIndex];
       return {
@@ -100,9 +141,6 @@ class App extends Component {
         infoText: this.defaultInfoText
       };
     });
-  };
-  cardMouseLeave = e => {
-    //    this.setState({ activeIndex: -1 });
   };
 
   siderStyle = {
@@ -123,7 +161,6 @@ class App extends Component {
           <TripCards
             {...this.state}
             onMouseEnter={this.cardMouseEnter.bind(this)}
-            onMouseLeave={this.cardMouseLeave.bind(this)}
           />
         </Col>
       </Row>

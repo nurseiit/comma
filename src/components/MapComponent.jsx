@@ -18,8 +18,8 @@ const MapComponent = compose(
   return (
     <GoogleMap
       onTilesLoaded={props.onLoaded}
-      defaultZoom={9}
-      defaultCenter={{ lat: 37.5555, lng: -122.4 }}
+      defaultZoom={8}
+      defaultCenter={{ lat: 37.8555, lng: -122.1 }}
     >
       <DrawLines {...props} />
     </GoogleMap>
