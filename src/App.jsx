@@ -15,7 +15,8 @@ class App extends Component {
   state = {
     list: [],
     infoIndex: 0,
-    infoText: "Click on the lines"
+    infoText: "Click on the lines",
+    isSingle: false
   };
   names = [];
   componentWillMount() {
@@ -74,12 +75,20 @@ class App extends Component {
   };
 
   cardMouseEnter = e => {
-    //let index = e.currentTarget.id;
-    this.setState({ isActive: true });
+    let index = e.currentTarget.id;
+    this.setState(prevState => {
+      let list = prevState.list;
+      list[index].isActive = true;
+      return { list, isSingle: true };
+    });
   };
   cardMouseLeave = e => {
-    //let index = e.currentTarget.id;
-    this.setState({ isActive: false });
+    let index = e.currentTarget.id;
+    this.setState(prevState => {
+      let list = prevState.list;
+      list[index].isActive = false;
+      return { list, isSingle: false };
+    });
   };
 
   siderStyle = {

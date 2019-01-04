@@ -15,6 +15,7 @@ const TripCards = props => {
     let speed_avg = (coords.length ? distance / time : 0).toFixed(2);
     trips.push(
       <TripInfo
+        {...props}
         {...list[i]}
         index={i}
         key={i}

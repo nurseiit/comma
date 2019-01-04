@@ -6,25 +6,25 @@ const { InfoBox } = require("react-google-maps/lib/components/addons/InfoBox");
 const DrawLines = props => {
   const { onLineClick, infoIndex, infoText } = props;
 
-  const { list } = props;
+  const { list, isSingle } = props;
 
   let Lines = [];
 
   for (let i = 0; i < list.length; i++) {
-    const { index, loading, color, isActive, isMarkerShown } = list[i];
+    const { id, loading, color, isActive, isMarkerShown } = list[i];
     const { coords } = list[i].data;
     Lines.push(
-      <div key={`${Math.random()}`}>
+      <div key={`${id}`}>
         {!loading && (
-          <div key={index}>
+          <div key={id}>
             <Polyline
-              id={index}
+              id={id}
               path={coords}
               onClick={onLineClick}
               geodesic={true}
               options={{
                 strokeColor: color,
-                strokeOpacity: isActive ? 0.99 : 0.35,
+                strokeOpacity: isActive ? 0.99 : !isSingle ? 0.35 : 0.0,
                 strokeWeight: 4.5,
                 zIndex: 1
               }}
