@@ -3,9 +3,9 @@ import TripInfo from "./TripInfo";
 import helpers from "../methods/helpers";
 
 const TripCards = props => {
-  const trips = [];
   const { minList, onMouseEnter } = props;
-  for (let i = 0; i < minList.length; i++) {
+
+  const trips = minList.map((trip, index) => {
     const {
       start_time,
       end_time,
@@ -13,16 +13,18 @@ const TripCards = props => {
       coordLastDist,
       loading,
       color
-    } = minList[i];
-    let distance = (coordLen ? coordLastDist : 0.0).toFixed(2);
-    let time = helpers.secondsFromInterval(start_time, end_time) / 3600;
-    let speed_avg = (coordLen ? distance / time : 0).toFixed(2);
-    trips.push(
+    } = trip;
+
+    const distance = (coordLen ? coordLastDist : 0.0).toFixed(2);
+    const time = helpers.secondsFromInterval(start_time, end_time) / 3600;
+    const speed_avg = (coordLen ? distance / time : 0).toFixed(2);
+
+    return (
       <TripInfo
         loading={loading}
         color={color}
-        index={i}
-        key={i}
+        index={index}
+        key={index}
         title={helpers.nameFromDate(start_time)}
         length={helpers.lengthFromInterval(start_time, end_time)}
         speed_avg={speed_avg}
@@ -30,7 +32,8 @@ const TripCards = props => {
         onMouseEnter={onMouseEnter}
       />
     );
-  }
+  });
+
   return trips;
 };
 

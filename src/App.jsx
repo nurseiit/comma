@@ -33,15 +33,15 @@ class App extends Component {
       this.loadList.includes(fileIndex)
     )
       return "";
-    let fileName = this.names[fileIndex];
+    const fileName = this.names[fileIndex];
     return readFile(fileName)
       .then(response => response.json())
       .then(data => {
         this.setState(prevState => {
-          let list = prevState.list;
-          let minList = prevState.minList;
-          let index = fileIndex;
-          let color = helpers.colorFromName(data.start_time + data.end_time);
+          const list = prevState.list;
+          const minList = prevState.minList;
+          const index = fileIndex;
+          const color = helpers.colorFromName(data.start_time + data.end_time);
           list[index] = {
             id: index,
             name: fileName,
@@ -72,13 +72,11 @@ class App extends Component {
 
   componentWillMount() {
     fileNames.sort();
-    let list = [];
-    let minList = [];
-    for (let i = 0; i < fileNames.length; i++) {
-      this.names.push(fileNames[i]);
-      let data = {
-        id: i,
-        name: fileNames[i],
+    this.names = fileNames;
+    const list = fileNames.map((fileName, index) => (
+      {
+        id: index,
+        name: fileName,
         loading: true,
         color: "",
         data: {
@@ -86,18 +84,18 @@ class App extends Component {
           start_time: "",
           end_time: ""
         }
-      };
-      let minData = {
-        id: i,
-        name: fileNames[i],
+      }
+    ));
+    const minList = fileNames.map((fileName, index) => (
+      {
+        id: index,
+        name: fileName,
         loading: true,
         color: "",
         start_time: "",
         end_time: ""
-      };
-      list.push(data);
-      minList.push(minData);
-    }
+      }
+    ));
     this.setState({ list, minList });
   }
 
@@ -113,26 +111,27 @@ class App extends Component {
     }
     for (let i = 0; i < 10; i++) this.openFile(i);
   };
+
   handleLineClick = e => {
-    let lat = e.latLng.lat();
-    let lng = e.latLng.lng();
-    let currentData = helpers.findByCoords(
+    const lat = e.latLng.lat();
+    const lng = e.latLng.lng();
+    const currentData = helpers.findByCoords(
       lat,
       lng,
       this.state.activeElement.data.coords
     );
-    let infoIndex = currentData.index;
-    let infoText = `Speed: ${(MS_TO_MPH * currentData.speed).toFixed(2)} mph`;
+    const infoIndex = currentData.index;
+    const infoText = `Speed: ${(MS_TO_MPH * currentData.speed).toFixed(2)} mph`;
     this.setState({ infoIndex, infoText });
   };
 
   cardMouseEnter = e => {
-    let activeIndex = e.currentTarget.id;
+    const activeIndex = e.currentTarget.id;
     for (let i = 0; i < 3; i++) {
       this.openFile(parseInt(activeIndex) + i);
     }
     this.setState(prevState => {
-      let activeElement = prevState.list[activeIndex];
+      const activeElement = prevState.list[activeIndex];
       return {
         activeIndex,
         activeElement,
@@ -147,6 +146,7 @@ class App extends Component {
     height: "100vh",
     overflowY: "scroll"
   };
+  
   render() {
     return (
       <Row>
